@@ -2,14 +2,55 @@
 
 #include <numeric>
 #include <vector>
+#include <list>
 #include <chrono>
 #include <sstream>
 #include <iostream>
 #include <algorithm>
 #include <functional>
 #include <cmath>
+#include <random>
 
 using duration_t = std::chrono::nanoseconds;
+
+struct MyStruct {
+  bool f0;
+  long f1;
+  float f2;
+  int* f3;
+  long long f4[10];
+};
+
+inline std::vector<MyStruct> generate_data(unsigned long n) {
+  std::vector<MyStruct> a;
+
+  std::random_device rd;
+  std::mt19937_64 gen(rd());
+
+  std::uniform_int_distribution<int> bool_dist(0, 1);
+  std::uniform_int_distribution<long> long_dist(std::numeric_limits<long>::min(), std::numeric_limits<long>::max());
+  std::uniform_real_distribution<float> float_dist(0.0f, 1000.0f);
+  std::uniform_int_distribution<int> int_dist(std::numeric_limits<int>::min(), std::numeric_limits<int>::max());
+  std::uniform_int_distribution<long long> long_long_dist(std::numeric_limits<long long>::min(), std::numeric_limits<long long>::max());
+
+  for (auto i = 0; i < 10000; ++i) {
+    auto e = MyStruct{
+      .f0 = static_cast<bool>(bool_dist(gen)),
+      .f1 = long_dist(gen),
+      .f2 = float_dist(gen),
+      .f3 = new int((int_dist(gen) & 7) + 1),
+      .f4 = {0}
+    };
+
+    for (auto t = 0; t < int_dist(gen) % 10; ++t) {
+      e.f4[t] = int_dist(gen);
+    }
+
+    a.push_back(e);
+  }
+
+  return a;
+}
 
 inline duration_t calculate_percentile(const std::vector<duration_t>& sorted_data, double p) {
     const size_t n = sorted_data.size();
@@ -68,3 +109,4 @@ inline void benchmark(std::function<void(void)> fn, unsigned long n) {
     std::cout << "90%% (ns): " << p90.count() << "\n";
     std::cout << "95%% (ns): " << p95.count() << "\n";
 }
+
