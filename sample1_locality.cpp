@@ -6,7 +6,7 @@
 
 void moo(MyStruct i) {
   std::stringstream os;
-  os << i.f0 << i.f1 << i.f2 << i.f3 << i.f4[0];
+  os << i.f0 << i.f1[0] << i.f2[1] << i.f3[2];
 }
 
 int main() {
@@ -19,10 +19,6 @@ int main() {
   };
 
   benchmark(fn, 10000);
-
-  for (auto& item : a) {
-    delete item.f3;
-  }
 
   a.clear();
 
