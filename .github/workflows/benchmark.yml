@@ -16,6 +16,9 @@ jobs:
           - run: sample1_locality
           - run: sample2_locality
           - run: sample3_locality
+          - run: sample1_cacheline
+          - run: sample2_cacheline
+          - run: sample3_cacheline
 
     runs-on: ubuntu-latest
     name: ${{ matrix.run }}

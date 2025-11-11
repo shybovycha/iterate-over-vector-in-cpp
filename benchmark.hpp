@@ -20,6 +20,13 @@ struct MyStruct {
   char f3[64];
 };
 
+struct MyShortStruct {
+  bool f0;
+  float* f1;
+  double* f2;
+  char* f3;
+};
+
 inline std::vector<MyStruct> generate_data(unsigned long n) {
   std::vector<MyStruct> a;
 
@@ -40,6 +47,41 @@ inline std::vector<MyStruct> generate_data(unsigned long n) {
 
       for (auto t = 0; t < 53; ++t)
         e.f2[t] = static_cast<double>(float_dist(gen));
+
+      for (auto t = 0; t < 64; ++t)
+        e.f3[t] = static_cast<char>(int_dist(gen) % 255);
+
+      a.push_back(e);
+  }
+
+  return a;
+}
+
+inline std::vector<MyShortStruct> generate_short_data(unsigned long n) {
+  std::vector<MyShortStruct> a;
+
+  std::random_device rd;
+  std::mt19937_64 gen(rd());
+
+  std::uniform_int_distribution<int> bool_dist(0, 1);
+  std::uniform_real_distribution<float> float_dist(0.0f, 1000.0f);
+  std::uniform_int_distribution<int> int_dist(std::numeric_limits<int>::min(), std::numeric_limits<int>::max());
+
+  for (auto i = 0; i < 10000; ++i) {
+      MyShortStruct e;
+
+      e.f0 = static_cast<bool>(bool_dist(gen));
+      e.f1 = new float[100];
+
+      for (auto t = 0; t < 100; ++t)
+        e.f1[t] = float_dist(gen);
+
+      e.f2 = new double[53];
+
+      for (auto t = 0; t < 53; ++t)
+        e.f2[t] = static_cast<double>(float_dist(gen));
+
+      e.f3 = new char[64];
 
       for (auto t = 0; t < 64; ++t)
         e.f3[t] = static_cast<char>(int_dist(gen) % 255);
