@@ -9,21 +9,22 @@ jobs:
       matrix:
         include:
           - run: sample1
-            flags:
+            flags: -std=c++20
             
           - run: sample2
-            flags:
+            flags: -std=c++20
             
           - run: sample3
-            flags:
+            flags: -std=c++20
             
           - run: sample1_suffix
-            flags:
+            flags: -std=c++20
             
           - run: sample2_suffix
-            flags:
+            flags: -std=c++20
 
     runs-on: ubuntu-latest
+    name: ${{ matrix.run }}
 
     steps:
       - name: Checkout code

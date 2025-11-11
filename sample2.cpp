@@ -1,7 +1,8 @@
 #include <vector>
-#include <chrono>
 #include <sstream>
 #include <iostream>
+
+#include "benchmark.hpp"
 
 void moo(int i) {
   std::stringstream os;
@@ -15,17 +16,13 @@ int main() {
     a.push_back(i);
   }
 
-  auto t1 = std::chrono::high_resolution_clock::now();
-  
-  for (auto i = a.size() - 1; i > 0; --i) {
-    moo(a[i]);
-  }
+  auto fn = [a]() {
+    for (int i = a.size() - 1; i > 0; --i) {
+      moo(a[i]);
+    }
+  };
 
-  auto t2 = std::chrono::high_resolution_clock::now();
+  benchmark(fn, 10000);
 
-  auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(t2 - t1);
-
-  std::cout << "sample2 (ns): " << duration.count() << "\n";
-  
   return 0;
 }
