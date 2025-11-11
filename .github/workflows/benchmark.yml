@@ -1,0 +1,38 @@
+name: Benchmark
+
+on:
+  workflow_dispatch:
+
+jobs:
+  benchmark:
+    strategy:
+      matrix:
+        include:
+          - run: sample1
+            flags:
+            
+          - run: sample2
+            flags:
+            
+          - run: sample3
+            flags:
+            
+          - run: sample1_suffix
+            flags:
+            
+          - run: sample2_suffix
+            flags:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+        
+      - name: Compile code
+        run: c++ ${{ matrix.run }}.cpp -o ${{ matrix.run }} ${{ matrix.flags }}
+
+      - name: Run
+        run: |
+          echo $(./${{ matrix.run }}) >> $GITHUB_STEP_SUMMARY
+        
