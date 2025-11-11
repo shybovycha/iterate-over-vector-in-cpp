@@ -8,29 +8,29 @@ jobs:
     strategy:
       matrix:
         include:
-          - run: sample1
-          - run: sample2
-          - run: sample3
-          - run: sample1_suffix
-          - run: sample2_suffix
-          - run: sample1_locality
-          - run: sample2_locality
-          - run: sample3_locality
-          - run: sample1_cacheline
-          - run: sample2_cacheline
-          - run: sample3_cacheline
+          - test: sample1
+          - test: sample2
+          - test: sample3
+          - test: sample1_suffix
+          - test: sample2_suffix
+          - test: sample1_locality
+          - test: sample2_locality
+          - test: sample3_locality
+          - test: sample1_cacheline
+          - test: sample2_cacheline
+          - test: sample3_cacheline
 
     runs-on: ubuntu-latest
-    name: ${{ matrix.run }}
+    name: ${{ matrix.test }}
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v5
         
       - name: Compile code
-        run: c++ ${{ matrix.run }}.cpp -o ${{ matrix.run }} -std=c++20
+        run: c++ -std=c++20 ${{ matrix.test }}.cpp -o ${{ matrix.test }}
 
       - name: Run
         run: |
-          echo $(./${{ matrix.run }}) >> $GITHUB_STEP_SUMMARY
+          echo $(./${{ matrix.test }}) >> $GITHUB_STEP_SUMMARY
         
