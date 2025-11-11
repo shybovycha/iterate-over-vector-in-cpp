@@ -58,9 +58,9 @@ inline void benchmark(std::function<void(void)> fn, unsigned long n) {
 
     auto [min_t, max_t] = std::minmax_element(times.begin(), times.end());
     auto mean_t = std::accumulate(times.begin(), times.end(), duration_t::zero()) / times.size();
-    auto p50 = calculate_percentile(times, 50.0);
-    auto p90 = calculate_percentile(times, 90.0);
-    auto p95 = calculate_percentile(times, 95.0);
+    auto p50 = calculate_percentile(times, 0.5);
+    auto p90 = calculate_percentile(times, 0.9);
+    auto p95 = calculate_percentile(times, 0.95);
 
     std::cout << "min (ns): " << min_t->count() << "\n";
     std::cout << "max (ns): " << max_t->count() << "\n";
