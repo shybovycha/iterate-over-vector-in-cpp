@@ -12,17 +12,21 @@ jobs:
           - test: sample2
           - test: sample3
           - test: sample4
+          - test: sample5
           - test: sample1_suffix
           - test: sample2_suffix
           - test: sample4_suffix
+          - test: sample5_suffix
           - test: sample1_locality
           - test: sample2_locality
           - test: sample3_locality
           - test: sample4_locality
+          - test: sample5_locality
           - test: sample1_cacheline
           - test: sample2_cacheline
           - test: sample3_locality
           - test: sample4_cacheline
+          - test: sample5_cacheline
 
     runs-on: ubuntu-latest
     name: ${{ matrix.test }}
